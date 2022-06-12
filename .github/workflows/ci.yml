@@ -68,7 +68,7 @@ jobs:
 
       - name: Build container image
         run: |
-          docker build -t "${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}"" ./src
+          docker build -t "${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}" ./src
           
       - name: Scan using Aquasec Trivy
         uses: aquasecurity/trivy-action@master
