@@ -90,7 +90,7 @@ jobs:
       - name: Azure login
         uses: azure/login@v1.4.3
         with:
-          credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          credentials: ${{ secrets.AzureCredentials }}
     
       # Builds and pushes an image up to your Azure Container Registry
       - name: Registry login
