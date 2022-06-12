@@ -63,25 +63,25 @@ jobs:
     #needs: [ build_scan, build_test ]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
 
-      - name: Build container image
-        run: |
-          docker build -t "${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}" ./src
+      # - name: Build container image
+      #   run: |
+      #     docker build -t "${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}" ./src
           
-      - name: Scan using Aquasec Trivy
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
-          format: 'sarif' 
-          output: 'trivy-results.sarif'
+      # - name: Scan using Aquasec Trivy
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     image-ref: '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
+      #     format: 'sarif' 
+      #     output: 'trivy-results.sarif'
 
-      - name: Upload scan results
-        uses: github/codeql-action/upload-sarif@v2
-        if: always() 
-        with:
-          sarif_file: 'trivy-results.sarif'
+      # - name: Upload scan results
+      #   uses: github/codeql-action/upload-sarif@v2
+      #   if: always() 
+      #   with:
+      #     sarif_file: 'trivy-results.sarif'
 
       - uses: gacts/github-slug@v1
         id: slug
@@ -90,9 +90,7 @@ jobs:
       - name: Azure login
         uses: azure/login@v1.4.3
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
     
       # Builds and pushes an image up to your Azure Container Registry
       - name: Registry login
