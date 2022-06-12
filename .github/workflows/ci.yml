@@ -68,12 +68,12 @@ jobs:
 
       - name: Build container image
         run: |
-          docker build -t $ACR_REGISTRY/demo1:${{ github.sha }} ./src
+          docker build -t "${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}"" ./src
           
       - name: Scan using Aquasec Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '$ACR_REGISTRY/demo1:${{ github.sha }}'
+          image-ref: '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
           format: 'sarif' 
           output: 'trivy-results.sarif'
 
@@ -101,4 +101,4 @@ jobs:
 
       - name: Push image
         run: |
-          docker push '$ACR_REGISTRY/demo1:${{ github.sha }}'
+          docker push '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
