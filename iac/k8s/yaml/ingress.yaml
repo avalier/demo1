@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: avalier-demo1
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: avalier-demo1
+            port:
+              number: 80
+  #tls:
+  #- hosts:
+  #  - hello-world.beta.avalier.io
+  #  secretName: tls-avalier-io
+  
+  #host: avalier-demo1.beta.avalier.io
+    

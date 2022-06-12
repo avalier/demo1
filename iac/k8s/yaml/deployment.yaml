@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: avalier-demo1
+  labels:
+    app: avalier-demo1
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: avalier-demo1
+  template:
+    metadata:
+      labels:
+        app: avalier-demo1
+    spec:
+      containers:
+      - name: avalier-demo1
+        image: avalier.azurecr.io/avalier-demo1:20220606-1400
+        ports:
+        - containerPort: 5000
+        - containerPort: 5001
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+        env:
+        - name: DOMAIN
+          value: "avalier-demo1.beta.avalier.io"
