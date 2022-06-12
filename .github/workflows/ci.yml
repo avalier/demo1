@@ -10,78 +10,78 @@ env:
 
 jobs:
 
-  # build_scan:
-  #   name: Build - Scan (using Github)
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     security-events: write
-  #     actions: read
-  #     contents: read
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+  build_scan:
+    name: Build - Scan (using Github)
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Scan - Initialize
-  #       uses: github/codeql-action/init@v2
-  #       with:
-  #         languages: 'csharp'
+      - name: Scan - Initialize
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'csharp'
 
-  #     - name: Scan - Autobuild
-  #       uses: github/codeql-action/autobuild@v2
+      - name: Scan - Autobuild
+        uses: github/codeql-action/autobuild@v2
 
-  #     - name: Scan - Analyze
-  #       uses: github/codeql-action/analyze@v2
+      - name: Scan - Analyze
+        uses: github/codeql-action/analyze@v2
 
-  # build_test:
-  #   name: Build - Test
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     COVERAGE_THRESHOLD: 75
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+  build_test:
+    name: Build - Test
+    runs-on: ubuntu-latest
+    env:
+      COVERAGE_THRESHOLD: 75
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Setup dotnet
-  #       uses: actions/setup-dotnet@v2
-  #       with:
-  #         dotnet-version: '6.0.x'
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
 
-  #     - name: Restore
-  #       run: |
-  #         dotnet restore ./src/Avalier.Demo1.sln
+      - name: Restore
+        run: |
+          dotnet restore ./src/Avalier.Demo1.sln
 
-  #     - name: Build
-  #       run: |
-  #         dotnet build --no-restore ./src/Avalier.Demo1.sln
+      - name: Build
+        run: |
+          dotnet build --no-restore ./src/Avalier.Demo1.sln
 
-  #     - name: Test
-  #       run: |
-  #         dotnet test --no-build ./src/Avalier.Demo1.sln /p:CollectCoverage=true /p:Threshold=$COVERAGE_THRESHOLD
+      - name: Test
+        run: |
+          dotnet test --no-build ./src/Avalier.Demo1.sln /p:CollectCoverage=true /p:Threshold=$COVERAGE_THRESHOLD
 
   package:
     name: Package and Scan
     #needs: [ build_scan, build_test ]
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # - name: Build container image
-      #   run: |
-      #     docker build -t "${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}" ./src
+      - name: Build container image
+        run: |
+          docker build -t "${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}" ./src
           
-      # - name: Scan using Aquasec Trivy
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     image-ref: '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
-      #     format: 'sarif' 
-      #     output: 'trivy-results.sarif'
+      - name: Scan using Aquasec Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
+          format: 'sarif' 
+          output: 'trivy-results.sarif'
 
-      # - name: Upload scan results
-      #   uses: github/codeql-action/upload-sarif@v2
-      #   if: always() 
-      #   with:
-      #     sarif_file: 'trivy-results.sarif'
+      - name: Upload scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always() 
+        with:
+          sarif_file: 'trivy-results.sarif'
 
       - uses: gacts/github-slug@v1
         id: slug
