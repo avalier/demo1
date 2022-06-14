@@ -103,7 +103,7 @@ jobs:
           docker tag '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}' '${{ env.ACR_REGISTRY }}/demo1:${{ github.ref_name }}'
           docker push '${{ env.ACR_REGISTRY }}/demo1:${{ github.ref_name }}'
 
-trigger_deploy_aks:
+  trigger_deploy_aks:
     runs-on: ubuntu-latest
     needs: [ package ]
     steps:
@@ -111,7 +111,7 @@ trigger_deploy_aks:
       run: |
         echo "Triggering deployment to aks"
 
-trigger_deploy_aca:
+  trigger_deploy_aca:
     runs-on: ubuntu-latest
     needs: [ package ]
     steps:
