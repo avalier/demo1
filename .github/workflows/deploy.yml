@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy_
 
 on:
   release:
@@ -20,8 +20,10 @@ jobs:
         echo "Inputs..."
         echo "${{ toJSON(github.event.inputs) }}"
         echo "Environment ${{ github.event.inputs.environment }}"
-        echo "Tags: ${{ github.event.inputs.tags }}" 
-        echo "Branch: ${{ github.event.inputs.branch }}" 
+        echo "ref: ${{ github.ref }}"
+        echo "ref_name: ${{ github.ref_name }}"
+        echo "ref_type: ${{ github.ref_type }}"
+
 
 
 #https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
