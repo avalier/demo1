@@ -13,17 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Show inputs
+    - name: Parameters
       run: |
         echo "environment ${{ github.event.inputs.environment }}"
         echo "ref: ${{ github.ref }}"
         echo "ref_name: ${{ github.ref_name }}"
         echo "ref_type: ${{ github.ref_type }}"
-        #echo "Event..."
-        #echo "${{ toJSON(github.event) }}"
-        #echo "Inputs..."
-        #echo "${{ toJSON(github.event.inputs) }}"
-        
 
 
 #https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch

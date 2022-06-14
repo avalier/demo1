@@ -60,7 +60,7 @@ jobs:
 
   package:
     name: Package and Scan
-    needs: [ build_scan ] # , build_test
+    needs: [ build_test, build_scan ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
