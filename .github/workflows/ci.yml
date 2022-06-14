@@ -1,4 +1,4 @@
-name: build
+name: Build
 on:
   push:
     #branches:
@@ -100,3 +100,5 @@ jobs:
       - name: Push image
         run: |
           docker push '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
+          docker tag '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}' '${{ env.ACR_REGISTRY }}/demo1:${{ github.ref_name }}'
+          docker push '${{ env.ACR_REGISTRY }}/demo1:${{ github.ref_name }}'
