@@ -25,7 +25,8 @@ jobs:
 
     - name: Show target branch
       run: |
-        ./.bin/execute.sh
+        echo "Working directory: $(pwd)"
+        .bin/execute.sh
       
         
 
