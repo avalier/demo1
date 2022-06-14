@@ -19,8 +19,14 @@ jobs:
         echo "ref: ${{ github.ref }}"
         echo "ref_name: ${{ github.ref_name }}"
         echo "ref_type: ${{ github.ref_type }}"
+
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Show target branch
+      run: |
+        ./.bin/execute.sh
+      
         
 
 
