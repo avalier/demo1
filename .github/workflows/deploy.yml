@@ -14,4 +14,10 @@ jobs:
 
     steps:
     - name: Send greeting
-      run: echo "Deploying to ${{ github.event.inputs.name }}"
+      run: |
+        echo "Environment ${{ github.event.inputs.environment }}"
+        echo "Tags: ${{ github.event.inputs.tags }}" 
+        echo "Branch: ${{ github.event.inputs.branch }}" 
+
+
+#https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
