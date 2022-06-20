@@ -1,0 +1,36 @@
+NAME: avalier-demo
+LAST DEPLOYED: Mon Jun 20 00:01:19 2022
+NAMESPACE: default
+STATUS: pending-install
+REVISION: 1
+TEST SUITE: None
+HOOKS:
+MANIFEST:
+---
+# Source: avalier-demo1/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: avalier-demo-avalier-demo1
+  labels:
+    app: avalier-demo-avalier-demo1
+    helm.sh/chart: avalier-demo1-0.1.0
+    app.kubernetes.io/name: avalier-demo1
+    app.kubernetes.io/instance: avalier-demo
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 5001
+  selector:
+    app.kubernetes.io/name: avalier-demo1
+    app.kubernetes.io/instance: avalier-demo
+

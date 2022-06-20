@@ -1,0 +1,59 @@
+NAME: avalier-demo
+LAST DEPLOYED: Sun Jun 19 23:59:53 2022
+NAMESPACE: default
+STATUS: pending-install
+REVISION: 1
+TEST SUITE: None
+HOOKS:
+MANIFEST:
+---
+# Source: avalier-demo1/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: avalier-demo-avalier-demo1
+  labels:
+    app: avalier-demo-avalier-demo1
+    helm.sh/chart: avalier-demo1-0.1.0
+    app.kubernetes.io/name: avalier-demo1
+    app.kubernetes.io/instance: avalier-demo
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: "avalier-demo1.beta.avalier.io"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+            
+              service:
+                name: avalier-demo-avalier-demo1
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+            
+              service:
+                name: avalier-demo-avalier-demo1
+                port:
+                  number: 80
+          - path: /swagger
+            pathType: Prefix
+            backend:
+            
+              service:
+                name: avalier-demo-avalier-demo1
+                port:
+                  number: 80
+  tls:
+    - hosts:
+      - "avalier-demo1.beta.avalier.io"
+      secretName: "tls-avalier-demo1.beta.avalier.io"
+

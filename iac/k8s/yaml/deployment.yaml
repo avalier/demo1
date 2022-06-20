@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: avalier-demo1
-        image: avalier.azurecr.io/avalier-demo1:20220606-1400
+        image: avalier.azurecr.io/demo1:master
         ports:
         - containerPort: 5000
         - containerPort: 5001

@@ -6,7 +6,8 @@ on:
   pull_request:
 
 env:
-  ACR_REGISTRY: avalier.azurecr.io
+  OCI_NAME: avalier-demo1
+  OCI_REGISTRY: avalier.azurecr.io
 
 jobs:
 
@@ -68,12 +69,12 @@ jobs:
 
       - name: Build container image
         run: |
-          docker build -t "${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}" ./src
+          docker build -t "${{ env.OCI_REGISTRY }}/${{ env.OCI_NAME }}:${{ github.sha }}" ./src
           
       - name: Scan using Aquasec Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
+          image-ref: '${{ env.OCI_REGISTRY }}/${{ env.OCI_NAME }}:${{ github.sha }}'
           format: 'sarif' 
           output: 'trivy-results.sarif'
 
@@ -95,13 +96,15 @@ jobs:
       # Builds and pushes an image up to your Azure Container Registry
       - name: Registry login
         run: |
-          az acr login --name $ACR_REGISTRY
+          az acr login --name $OCI_REGISTRY
 
       - name: Push image
         run: |
-          docker push '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}'
-          docker tag '${{ env.ACR_REGISTRY }}/demo1:${{ github.sha }}' '${{ env.ACR_REGISTRY }}/demo1:${{ github.ref_name }}'
-          docker push '${{ env.ACR_REGISTRY }}/demo1:${{ github.ref_name }}'
+          export LABEL=${{ github.ref_name }}
+          if [ $LABEL == "main" ] || [ $LABEL == "master" ] ; then LABEL=latest ; fi
+          docker push ${{ env.OCI_REGISTRY }}/${{ env.OCI_NAME }}:${{ github.sha }}
+          docker tag ${{ env.OCI_REGISTRY }}/${{ env.OCI_NAME }}:${{ github.sha }} ${{ env.OCI_REGISTRY }}/${{ env.OCI_NAME }}:$LABEL
+          docker push ${{ env.OCI_REGISTRY }}/${{ env.OCI_NAME }}:$LABEL
 
   trigger_deploy_aks:
     runs-on: ubuntu-latest

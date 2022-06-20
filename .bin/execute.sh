@@ -1,2 +1,2 @@
 #!/bin/bash
-echo 'master'
+echo 'develop'
